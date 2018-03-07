@@ -1,0 +1,222 @@
+# website-files
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Helper Project</title>
+        
+        <style>
+		#title {
+		    background-color:lightblue;
+		    color:Black;
+		    text-align:center;
+		    padding:5px;
+		}
+		
+		#middle {
+		    background-color:turquoise;
+		    color:red;
+		    font="Arial";
+		    text-align:center;
+		    padding:5px;
+		}
+		</style>
+    
+    </head>
+    
+    <body>
+    	
+       	<div id="title">
+		<h1>Skin Cancer Checker<br>
+		</div>
+		          	
+		<div id="middle">
+		<table border="0" cellpadding="8" cellspacing="80">
+			
+			<!-- First row -->
+			<tr>
+          	<td colspan="2" rowspan="2">
+          	<textarea id="output" cols = "30" rows = "10" name="outputText"></textarea>
+          	</td>
+          	</tr>
+         
+            <!-- Second row -->
+         	<tr>
+          	<td colspan="3">
+			<img src    = "hand.jpg"
+			id          = "icon"
+			width       = "299"
+			height      = "168"
+			border      = "0">
+			</td>
+			</tr>
+			
+			<!-- Third row -->
+			<tr>
+          	<td colspan="3"  align="center">
+			<h3><label id = "question">Do you have a mole?</label></h3>
+			</td>
+          
+          	<td>
+          	<input type="button" id="yes" value="Yes" onclick = "processYN('yes')">	
+          	</td>
+          	
+          	<td>
+          	<input type="button" id="no" value="No" onclick = "processYN('no')">	
+          	</td>
+			</tr>
+            
+          </table>
+          </div>
+		
+        <script>
+            var questionNumber = 0;  // This variable keeps track of which question is being processed.
+        	var baseball=false;      // Assume that 'no' has been answered
+        	var nationalLeague=false;
+        	var redUniforms=false;
+        	var ohio=false;
+        	var MAX_QUESTIONS=4;
+        	
+			
+			
+			
+			
+			
+			
+			
+        	// This function process 'yes' and 'no' responses for the various questions
+        	function processYN(answer) 
+        	{
+        		// Use this to print debugging diagnostics.
+        		//document.getElementById("output").value = "DEBUG: " + answer;
+        		
+        		if (answer == "yes")
+        		{
+        			switch (questionNumber)
+	        		{
+	        			case 0:
+	        				baseball = true;
+	        				break;
+	        			case 1:
+	        				nationalLeague = true;
+	        				break;
+	        			case 2:
+	        				redUniforms = true;
+	        				break;
+	        			case 3:
+	        				ohio = true;
+	        				break;
+	        			default:
+	        				break;
+	        		}
+        		}
+        		
+        		questionNumber++;
+        		processResponse();	
+        	}
+        	
+        	// This function processes the 'yes' and 'no' responses and navigates the program logic flow.
+        	function processResponse() 
+        	{
+        		// Clear out the response text area.
+        		document.getElementById("output").value = "";
+        		
+        		// Check for a valid question number range.
+        
+		        if (questionNumber >= 1 && questionNumber <= MAX_QUESTIONS)
+		        {
+		            processBaseballQuestion();
+		        }
+		        else // Invalid Question Number
+		        {
+		        	document.getElementById("output").value += "\n" + "Application Error: Please contact the developer!\n";
+		        	disableApp();
+		        }
+	        }
+	        
+	        /* 
+	         * This function processes the response to the 'baseball' question and
+	         * then navigates through the reamining line of questioning.
+	         */
+	        function processBaseballQuestion()
+	        {
+	        	 // Does the user like baseball?
+            
+		        if (questionNumber >= 1)
+		        {
+		            if (baseball) // Yes, they do.
+		            {
+						document.getElementById("output").value += "Don't worry!\n";
+        				document.getElementById("icon").src = "dontworry.jpg";
+						processLeagueQuestion();
+		            }
+		            else // Well, maybe they like cricket.
+		            {
+		               document.getElementById("output").value += "You have the lowest chance of skin cancer!\n";
+        			   document.getElementById("icon").src = "cricketFit.gif";
+        			   disableApp();
+		            }
+		        }
+	        }
+	        
+	        /* 
+	         * This function processes the response to the 'league' question and
+	         * then navigates through the reamining line of questioning.
+	         */
+	        function processLeagueQuestion()
+	        {
+	        	document.getElementById("question").innerText = "Is your mole not symmetric??";
+	        	
+	        	if (questionNumber >= 2)
+		        {
+		            if (nationalLeague)
+		            {
+		            	document.getElementById("output").value += "That is okay! Lets see what we can find with this question!\n";
+        				document.getElementById("icon").src = "flat.jpg";
+		                processRedUniformQuestion();
+		            }
+		            else
+		            {
+		            	document.getElementById("output").value += "You probably have a common mole. Check your doctor anyways!\n";
+        				document.getElementById("icon").src = "oriolesFit.gif";
+		                disableApp();
+		            }
+		        }
+	        }
+	        
+	        /* 
+	         * This function processes the response to the 'uniform' question and
+	         * then navigates through the reamining line of questioning.
+	         */
+	        function processRedUniformQuestion()
+	        {
+	        	document.getElementById("question").innerText = "Does it look flat?";
+	        	if (questionNumber >= 3)
+		        {
+		            if (redUniforms)
+		            {
+		            	document.getElementById("output").value += "Okay... that is a good sign that you don't have anything bad. What about this question?\n";
+        				document.getElementById("icon").src = "NLFit.gif";
+		                processOhioQuestion();
+		            }
+		            else
+		            {
+		            	document.getElementById("output").value += "You probably have basal cell carcinoma. This is cancer! Check your Doctor!\n";
+        				document.getElementById("icon").src = "skincancer.jpg";
+		                disableApp();
+		            }
+		        }
+	        }
+			
+			// This function disables the user input.
+			function disableApp()
+			{
+				document.getElementById("yes").disabled = true;
+				document.getElementById("no").disabled = true;
+			}
+			
+        </script>
+
+    </body>
+</html>
