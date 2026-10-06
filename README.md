@@ -1,1 +1,1 @@
-password="ThisIsAFakePassword"
+password="AKIA4SZSTBNX7KQ2MJ9F"
